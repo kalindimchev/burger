@@ -30,9 +30,11 @@ class BurgerBuilder extends Component {
         console.log(this.props)
 
         axios.get('https://burgerapp-reactudemy.firebaseio.com/ingredients.json').then(res => {
+            console.log(res)
             this.setState({ingredients: res.data})
             this.setState({error: false})
         }).catch(err => {
+            console.log(err)
             this.setState({error: true})
         })
     }
@@ -68,7 +70,7 @@ class BurgerBuilder extends Component {
 
     removeIngredient = type => {
         const oldCount = this.state.ingredients[type];
-        if (oldCount == 0) {
+        if (oldCount === 0) {
             return;
         }
         const updatedIngredients = {
@@ -94,31 +96,12 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinue = () => {
-        // this.setState({loading: true})
-        // const order = {
-        //     ingredients: this.state.ingredients,
-        //     price: this.state.totalPrice,
-        //     customer: {
-        //         name: 'Kalin',
-        //         address: {
-        //             street: 'Vitosha',
-        //             zipCode: 1000,
-        //             country: 'Bulgaria'
-        //         },
-        //         email: 'kalin@kalin.com'
-        //     },
-        //     deliveryMethod: 'fastest'
-        // }
-        // axios.post('/orders', order)
-        //     .then(res => {
-        //         this.setState({loading: false, purchasing: false})
-        //     }).catch(err => {
-        //         this.setState({loading: false, purchasing: false})
-        //     })
+        
         const queryParams = [];
         for (let i in this.state.ingredients) {
             queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
         }
+        queryParams.push('price=' + this.state.totalPrice)
         const queryString = queryParams.join('&')
         this.props.history.push({
             pathname: '/checkout',
@@ -131,7 +114,7 @@ class BurgerBuilder extends Component {
             ...this.state.ingredients
         }
         for (let key in disabledInfo) {
-            disabledInfo[key] = disabledInfo[key] == 0;
+            disabledInfo[key] = disabledInfo[key] === 0;
         }
         let orderSummary = null;
         

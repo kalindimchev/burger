@@ -1,6 +1,5 @@
 import React from 'react';
 // import { withRouter } from 'react-router-dom';
-import Aux from '../../hoc/Auxiliary/Auxiliary';
 import classes from './Burger.css';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 
