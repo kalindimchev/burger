@@ -9,13 +9,59 @@ import { withRouter } from 'react-router-dom';
 
 class ContactData extends Component {
     state = {
-        name: '',
-        email: '',
-        address: {
-            street: '',
-            postCode: ''
+        orderForm: {
+            name: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Your Name'
+                },
+                value: ''
+            },
+            street: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Street'
+                },
+                value: ''
+            },
+            zipCode: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'ZIP Code'
+                },
+                value: ''
+            },
+            country: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Country'
+                },
+                value: ''
+            },
+            email: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'email',
+                    placeholder: 'Your E-mail'
+                },
+                value: ''
+            },
+            deliveryMethod: {
+                elementType: 'select',
+                elementConfig: {
+                    options: [
+                        {value: 'fastest', displayValue: 'Fastest'},
+                        {value: 'cheapest', displayValue: 'Cheapest'}
+                    ],
+                    placeholder: 'Delivery Method'
+                },
+                value: 'fastest'
+            },
         },
-        totalPrice: 0,
         loading: false
     }
 
@@ -48,13 +94,33 @@ class ContactData extends Component {
             })
     }
 
+    inputChangedHandler = (event, inputId) => {
+        console.log(this.state)
+        const updatedOrderForm = {...this.state.orderForm};
+        const updatedOrderFormElement = {...updatedOrderForm[inputId]}
+        updatedOrderFormElement.value = event.target.value;
+        updatedOrderForm[inputId] = updatedOrderFormElement;
+        this.setState({orderForm: updatedOrderForm})        
+    }
+
     render() {
+        const formElements = [];
+        for (let key in this.state.orderForm) {
+            formElements.push({
+                id: key,
+                config: this.state.orderForm[key]
+            })
+        }
         let form = (
             <form>
-                <Input inputtype="input" type="text" name="name" placeholder="Your Name" />
-                <Input inputtype="input" type="email" name="email" placeholder="Your Email" />
-                <Input inputtype="input" type="text" name="street" placeholder="Street" />
-                <Input inputtype="input" type="text" name="postCode" placeholder="Post Code" />
+                {formElements.map(el => {
+                    return <Input 
+                        key={el.id}
+                        elementType={el.config.elementType}
+                        elementConfig={el.config.elementConfig}
+                        value={el.config.value}
+                        changed={(event) => this.inputChangedHandler(event, el.id)} />
+                })}
                 <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
             </form>
         )
