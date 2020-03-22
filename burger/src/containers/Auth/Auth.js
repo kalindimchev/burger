@@ -41,7 +41,7 @@ class Auth extends Component {
                 touched: false
             }
         },
-        isSignUp: true
+        isSignUp: false
     }
 
     componentDidMount() {
@@ -162,7 +162,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp)),    
+        onAuth: (email, password, isSignUp) => dispatch(actions.auth('pacolino@gmail.com', '121212', isSignUp)),    
         onAuthRedirectPath: path => dispatch(actions.setAuthRedirctPath(path))        
     }
 }
