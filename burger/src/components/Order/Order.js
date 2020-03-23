@@ -11,7 +11,6 @@ const order = props => {
             })
         }
     }
-    console.log(ingredients)
     const ingredientsOutput = ingredients.map(i => {
         return <span
             style={{
